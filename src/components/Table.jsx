@@ -1,17 +1,40 @@
 import React from 'react'
 import { useTable } from 'react-table';
 import { Button } from './Button';
+import Badge from 'react-bootstrap/Badge';
+import 'bootstrap/dist/css/bootstrap.css';
+
+const TQuality = () => {
+    return (
+        <div>
+            <span> 1080p (.mp4)</span>
+            <span>  </span>
+            <Badge bg="primary" > full-HD </Badge>
+        </div>
+    )
+}
+
 
 const randomNumber = Math.round(Math.random() * (100 - 3) + 3);
 const file = `${randomNumber} MB`
 const data = [
     {
-        resolution: '1080p (.mp4)',
+        resolution: <TQuality />,
         fileSize: file,
         button: <Button />
     },
     {
-        resolution: '720p (.mp4)',
+        resolution: <TQuality />,
+        fileSize: file,
+        button: <Button />
+    },
+    {
+        resolution: <TQuality />,
+        fileSize: file,
+        button: <Button />
+    },
+    {
+        resolution: <TQuality />,
         fileSize: file,
         button: <Button />
     }
@@ -69,10 +92,12 @@ export const Table = () => {
                     })}
                 </tbody>
             </table>
-        
+
         </>
 
     );
 }
+
+
 
 

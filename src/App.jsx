@@ -4,7 +4,7 @@ import axios from 'axios'
 import { ThreeDot } from 'react-loading-indicators';
 import { Button } from './components/Button';
 import { Table } from './components/Table';
-
+import { FaLongArrowAltRight } from "react-icons/fa";
 
 function App() {
 
@@ -57,24 +57,24 @@ function App() {
     <>
       <div className='border border-green-500 p-14 rounded'>
         <h1 className='mb-4'>Download video from Youtube 4k, 8k</h1>
-        <form action="" className='mt-5 mb-4'>
+        <form action="" className='mt-5 mb-4 flex justify-center'>
 
           <input type="text" value={inputValue} onChange={handleInputChange}
             placeholder='Paste link here...' className='p-2.5 w-[480px] border
            border-red-700 rounded-sm' />
 
-          <button type='submit' className='bg-pink-600'
-            onClick={handleButtonClick}>Start</button>
+          <button type='submit' className='bg-pink-600 flex items-center'
+            onClick={handleButtonClick}>Start   <FaLongArrowAltRight /> </button>
 
         </form>
-        <div className='flex'>
+        <div className='flex justify-center'>
           <div className='flex flex-col items-start'>
             <img src="/thumbnail.jpg" alt="thumb" />
-            <h5 className='font-bold '> How to Make a Website in 10 mins - Simple & Easy</h5>
+            <h5 className='font-bold max-w-80'> How to Make a Website in 10 mins - Simple & Easy</h5>
             <p>Duration: 00:11:22</p>
           </div>
-          <div>
-           <Table/>
+          <div className='ms-4'>
+            <Table />
           </div>
         </div>
 
