@@ -3,8 +3,11 @@ import './App.css'
 import axios from 'axios'
 import { ThreeDot } from 'react-loading-indicators';
 import { Button } from './components/Button';
+import { Table } from './components/Table';
+
 
 function App() {
+
   const [inputValue, setInputValue] = useState('');
 
   const handleInputChange = (event) => {
@@ -64,14 +67,14 @@ function App() {
             onClick={handleButtonClick}>Start</button>
 
         </form>
-        <div>
+        <div className='flex'>
           <div className='flex flex-col items-start'>
             <img src="/thumbnail.jpg" alt="thumb" />
-            <h5 className='font-bold'> How to Make a Website in 10 mins - Simple & Easy</h5>
+            <h5 className='font-bold '> How to Make a Website in 10 mins - Simple & Easy</h5>
             <p>Duration: 00:11:22</p>
           </div>
           <div>
-            <Button />
+           <Table/>
           </div>
         </div>
 
