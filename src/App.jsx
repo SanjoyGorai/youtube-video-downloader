@@ -6,6 +6,9 @@ import { DownloadButton } from './components/DownloadButton';
 import { Table } from './components/Table';
 import { FaLongArrowAltRight } from "react-icons/fa";
 import VideoContext from './contexts/VideoContext';
+import { Footer } from './components/Footer';
+import { Navbar } from './components/Navbar';
+import { Link } from 'react-router-dom';
 
 function App() {
 
@@ -81,8 +84,9 @@ function App() {
 
   return (
     <>
-      <div className='border border-green-500 p-4 rounded'>
-        <h2 className='mb-4 text-4xl text-cyan-300 font-sans'>Download video Youtube 4K</h2>
+      <Navbar />
+      <div className='border border-green-500 p-4 rounded  '>
+        <h2 className='mb-4 text-4xl text-cyan-300 font-roboto'>Download video Youtube 4K</h2>
         <form action="" className='mt-5 mb-4 flex justify-center'>
 
           <input type="text" value={inputValue} onChange={handleInputChange}
@@ -98,7 +102,7 @@ function App() {
           <div className='flex flex-col items-start'>
             <img src='src/assets/bus.jpg' alt="thumbnail" className='max-w-80' />
             {/* <h5 className='font-bold max-w-80'> {videoData?.title}</h5> */}
-            <h5 className='font-bold max-w-80 text-start'> {"Private Bus: উধাও হয়ে যাবে অন্তত ২ হাজার বেসরকারি বাস ! চরমে উঠতে চলেছে যাত্রীদের দুর্ভোগ ?"}</h5>
+            <h5 className='font-bold max-w-80 text-start '> {"Private Bus: উধাও হয়ে যাবে অন্তত ২ হাজার বেসরকারি বাস ! চরমে উঠতে চলেছে যাত্রীদের দুর্ভোগ ?"}</h5>
             <p className='mt-2'>Duration: {duration}</p>
           </div>
 
@@ -136,6 +140,8 @@ function App() {
         </div>
 
       </div>
+
+      <Footer />
     </>
   )
 }
