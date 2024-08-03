@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useTable } from 'react-table';
-import { Button } from './Button';
+import { DownloadButton } from './DownloadButton';
 import Badge from 'react-bootstrap/Badge';
 import 'bootstrap/dist/css/bootstrap.css';
 
-const TQuality = () => {
+const TQuality = (props) => {
+
+    // const first = useContext()
+
     return (
         <div>
             <span> 1080p (.mp4)</span>
@@ -21,22 +24,22 @@ const data = [
     {
         resolution: <TQuality />,
         fileSize: file,
-        button: <Button />
+        button: <DownloadButton />
     },
     {
         resolution: <TQuality />,
         fileSize: file,
-        button: <Button />
+        button: <DownloadButton />
     },
     {
         resolution: <TQuality />,
         fileSize: file,
-        button: <Button />
+        button: <DownloadButton />
     },
     {
         resolution: <TQuality />,
         fileSize: file,
-        button: <Button />
+        button: <DownloadButton />
     }
 ];
 
@@ -85,7 +88,7 @@ export const Table = () => {
                         return (
                             <tr {...row.getRowProps()}>
                                 {row.cells.map((cell) => (
-                                    <td className='border p-2' {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                    <td className='border ps-5 p-2 pe-5' {...cell.getCellProps()}>{cell.render('Cell')}</td>
                                 ))}
                             </tr>
                         );
