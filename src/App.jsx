@@ -33,7 +33,11 @@ function App() {
   const url1 = 'https://www.youtube.com/watch?v=YWA-xbsJrVg'
   const url2 = 'https://youtu.be/YWA-xbsJrVg?si=VB8MkWhxGEg7vtEX'
   const url3 = 'https://youtu.be/A4czTSJYZHo?si=FCnjwo7HtlEd_RPa' //Private Bus: উধাও হয়ে যাবে অন্তত ২ হাজার বেসরকারি বাস ! চরমে উঠতে চলেছে যাত্রীদের দুর্ভোগ ?
-  const url4 = 'https://youtu.be/dz458ZkBMak?si=7QL66Exc2HYCAlS5' //Private Bus: উধাও হয়ে যাবে অন্তত ২ হাজার বেসরকারি বাস ! চরমে উঠতে চলেছে যাত্রীদের দুর্ভোগ ?
+  const url4 = 'https://youtu.be/dz458ZkBMak?si=7QL66Exc2HYCAlS5'
+  const url5 = 'https://youtu.be/Fcammw5Dh2Y?si=1aBh6RM4D6IDPlkk'
+  const url8k = 'https://youtu.be/ZgFrE4jfAPE?si=Jvylwc1nAIoX0bvh'  // WILDLIFE & ANIMAL ADVENTURES 60FPS 8K VIDEO ULTRA HD #8K
+  const urlOlderVideo = 'https://youtu.be/LeAltgu_pbM?si=oHdxhpV0hGkLgO9F'
+  // WILDLIFE & ANIMAL ADVENTURES 60FPS 8K VIDEO ULTRA HD #8K
 
   function extractVideoId(url) {
     if (url.includes('youtu.be')) {
@@ -90,12 +94,6 @@ function App() {
         .catch(e => console.log(e));
     }
 
-    const indi = document.getElementById('indi')
-    if (indi.id != null) {
-      console.log(indi.id);
-      indi.style.visibility = 'visible'
-    }
-
   };
 
   const handleButtonClickFetch = async (event) => {
@@ -123,41 +121,43 @@ function App() {
 
   };
 
-
-
   return (
     <>
       <Navbar />
       <div className='border border-green-500 p-4 rounded-s mt-2'>
-        <h2 className='mb-8 text-3xl text-cyan-300 font-roboto lg:text-4xl'>Download video Youtube 4K</h2>
-        <form action="" className='flex justify-center m-auto '>
-
-          <input type="text" value={inputValue} onChange={handleInputChange}
-            placeholder='Paste link here...' className='p-2.5 min-w-96   
+        <div className='flex flex-col items-center'>
+          <h2 className='mb-8 text-3xl text-cyan-300 font-roboto lg:text-4xl'>Download video Youtube 4K</h2>
+          <div className='bg-red-400'>
+            <form action="" className='flex '>
+              <input type="text" value={inputValue} onChange={handleInputChange}
+                placeholder='Paste link here...' className='p-2.5 min-w-96   
             border-2 border-pink-600 rounded-s outline-none lg:w-[500px]'  />
 
-          <button type='submit' className='bg-pink-600 hover:bg-pink-500 flex items-center rounded-none rounded-e ps-3 pe-3'
-            onClick={handleStartButtonClick}> Start <FaLongArrowAltRight /> </button>
+              <button type='submit' className='bg-pink-600 hover:bg-pink-500 flex items-center rounded-none rounded-e ps-3 pe-3'
+                onClick={handleStartButtonClick}> Start <FaLongArrowAltRight />
+              </button>
 
-        </form>
-
-        {isSubmitted ? (loading ? <BeatLoader color='#00FF00' /> : <div className='mt-2 '>
-          <div className='lg:flex justify-center flex flex-row'>
-            <div className=' lg:flex flex-col items-start'>
-              <img src={videoData.thumbnails[3].url} alt="thumbnail" className='max-w-80' />
-              <h5 className='font-bold max-w-80 text-start '> {videoData.title}</h5>
-              <p className='mt-2 font-roboto'>Duration: {msToTimeFormat(videoData.videos.items[0].lengthMs)}</p>
-            </div>
-
-            <div className='ms-4 '>
-              <BasicTable />
-              {/* <DownloadButton click={handleDownload} /> */}
-            </div>
+            </form>
           </div>
-        </div>) : ''}
 
-        <div className='mt-5 invisible' id='indi'>
-          <ThreeDot color="#32cd32" size="medium" text="" textColor="" />
+        </div>
+        
+        <div className='mt-2 mb-2'>
+          {isSubmitted ? (loading ? <BeatLoader color='#00FF00' /> :
+            <div className='mt-2'>
+              <div className='flex flex-col justify-center items-center lg:flex lg:flex-row lg:justify-center lg:items-start '>
+                <div className='flex-col items-start mt-3'>
+                  <img src={videoData.thumbnails?.length > 4 ? (videoData.thumbnails[4].url) : (videoData.thumbnails[3].url)} alt="thumbnail" className='max-w-96' />
+                  <h5 className='font-bold max-w-80 text-start '> {videoData.title}</h5>
+                  <p className='mt-2 font-roboto text-start'>Duration: {msToTimeFormat(videoData.videos.items[0].lengthMs)}</p>
+                </div>
+
+                <div className='ms-4 mt-3'>
+                  <BasicTable />
+                </div>
+              </div>
+            </div>
+          ) : ''}
         </div>
 
         <hr className='mb-4 mt-03' />
@@ -201,7 +201,7 @@ function App() {
         </div>
 
       </div>
-      <div className='lg:flex'>
+      <div className='flex flex-col lg:flex lg:flex-row mt-2'>
         <div className='mt-3 w-96 flex flex-col items-center'>
           <BsGiftFill style={{ fontSize: '2rem', marginBottom: '1rem' }} />
           <h5 className='font-bold text-xl text-pink-600'> Free Download</h5>
@@ -212,7 +212,7 @@ function App() {
           <h5 className='font-bold text-xl text-pink-600'>  Video & Audio</h5>
           <span className='text-xl mt-2 font-roboto semo'> Directly Download Video & <br /> Music.</span>
         </div>
-        <div className='mt-3 w-96  flex flex-col items-center'>
+        <div className='mt-3 w-96  flex flex-col items-center '>
           <MdOutlineDownloadDone style={{ fontSize: '2rem', marginBottom: '1rem' }} />
           <h5 className='font-bold text-xl text-pink-600'> Easy Download</h5>
           <span className='text-xl mt-2 font-roboto semo'>Fully compatible with all <br />  browsers.</span>

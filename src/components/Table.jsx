@@ -32,28 +32,29 @@ const columns = ['Resolution', 'File Size', 'Download'];
 export const BasicTable = () => {
 
     const { videoData, setvideoData } = useContext(VideoContext);
-    // console.log('table', videoData);
     const videoItems = videoData.videos.items
-    // console.log(quality);
 
+    function bytesToSize(bytes) {
+        const kb = 1024;
+        const mb = kb * 1024;
+        const gb = mb * 1024;
 
-    const rows = [
-        createData(<TQuality />, '47.54 MB', <DownloadButton />),
-        // createData(<TQuality />, '47.54 MB', <DownloadButton />),
-        // createData(<TQuality />, '47.54 MB', <DownloadButton />),
-        // createData(<TQuality />, '47.54 MB', <DownloadButton />),
-    ];
-
-    function bytesToMB(bytes) {
-        const megabytes = bytes / (1024 * 1024);
-        return megabytes.toFixed(2);
+        if (bytes >= gb) {
+            return (bytes / gb).toFixed(2) + ' GB';
+        } else if (bytes >= mb) {
+            return (bytes / mb).toFixed(2) + ' MB';
+        } else if (bytes >= kb) {
+            return (bytes / kb).toFixed(2) + ' KB';
+        } else {
+            return bytes + ' Bytes';
+        }
     }
 
     return (
         <>
-            <TableContainer component={Paper}   >
+            <TableContainer component={Paper} className='border' >
                 <MuiTable sx={{}} aria-label="simple table">
-                    <TableHead>
+                    <TableHead >
                         <TableRow>
                             {columns.map((item, key) =>
                             (
@@ -62,14 +63,14 @@ export const BasicTable = () => {
                             )}
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody >
                         {videoItems.map((item, key) => (
                             <TableRow
                                 key={key}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                 <TableCell component="th" scope="row">{item.quality}</TableCell>
-                                <TableCell align="right">{bytesToMB(item.size) + ' MB'}</TableCell>
-                                <TableCell align="right"><DownloadButton /></TableCell>
+                                <TableCell className='text-start border-s border-e' align="right">{bytesToSize(item.size)}</TableCell>
+                                <TableCell align="right" ><DownloadButton className='bg-fuchsia-500' /></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
