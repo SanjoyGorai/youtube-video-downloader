@@ -170,13 +170,10 @@ const data = [
 
 const VideoProvider = ({ children }) => {
 
-    const [value, setValue] = useState();
-    // const videoInfo = {
-    //     title: 'Abhijit Ganguly, Lok Sabha: স্টুপিডের মতো কথা বলবেন না: অভিজিৎ',
-    // }
+    const [videoData, setvideoData] = useState({});
 
     return (
-        <VideoContext.Provider value={{ value, setValue, videoInfo, data }}>
+        <VideoContext.Provider value={{ videoData, setvideoData }}>
             {children}
         </VideoContext.Provider >
     );

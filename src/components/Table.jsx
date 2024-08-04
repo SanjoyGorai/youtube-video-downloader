@@ -31,10 +31,11 @@ const columns = ['Resolution', 'File Size', 'Download'];
 
 export const BasicTable = () => {
 
-    const videoInfo = useContext(VideoContext);
-    console.log('Table', videoInfo.videoInfo);
-    const quality = videoInfo.videoInfo.videos.items
-    console.log("Quality", quality);
+    const { videoData, setvideoData } = useContext(VideoContext);
+    // console.log('table', videoData);
+    const videoItems = videoData.videos.items
+    // console.log(quality);
+
 
     const rows = [
         createData(<TQuality />, '47.54 MB', <DownloadButton />),
@@ -50,24 +51,24 @@ export const BasicTable = () => {
 
     return (
         <>
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper}   >
                 <MuiTable sx={{}} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            {columns.map(item =>
+                            {columns.map((item, key) =>
                             (
-                                <TableCell >{item}</TableCell>
+                                <TableCell key={key}>{item}</TableCell>
                             )
                             )}
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {quality.map((row) => (
+                        {videoItems.map((item, key) => (
                             <TableRow
-                                key={row.quality}
+                                key={key}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                <TableCell component="th" scope="row">{row.quality}</TableCell>
-                                <TableCell align="right">{bytesToMB(row.size) + ' MB'}</TableCell>
+                                <TableCell component="th" scope="row">{item.quality}</TableCell>
+                                <TableCell align="right">{bytesToMB(item.size) + ' MB'}</TableCell>
                                 <TableCell align="right"><DownloadButton /></TableCell>
                             </TableRow>
                         ))}
