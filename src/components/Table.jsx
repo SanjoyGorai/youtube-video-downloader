@@ -1,13 +1,19 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useTable } from 'react-table';
 import { DownloadButton } from './DownloadButton';
 import Badge from 'react-bootstrap/Badge';
 import 'bootstrap/dist/css/bootstrap.css';
+import VideoContext from '../contexts/VideoContext';
+
+import MuiTable from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 const TQuality = (props) => {
-
-    // const first = useContext()
-
     return (
         <div>
             <span> 1080p (.mp4)</span>
@@ -17,89 +23,151 @@ const TQuality = (props) => {
     )
 }
 
+function createData(quality, fileSize, button) {
+    return { quality, fileSize, button };
+}
 
-const randomNumber = Math.round(Math.random() * (100 - 3) + 3);
-const file = `${randomNumber} MB`
-const data = [
-    {
-        resolution: <TQuality />,
-        fileSize: file,
-        button: <DownloadButton />
-    },
-    {
-        resolution: <TQuality />,
-        fileSize: file,
-        button: <DownloadButton />
-    },
-    {
-        resolution: <TQuality />,
-        fileSize: file,
-        button: <DownloadButton />
-    },
-    {
-        resolution: <TQuality />,
-        fileSize: file,
-        button: <DownloadButton />
+const columns = ['Resolution', 'File Size', 'Download'];
+
+export const BasicTable = () => {
+
+    const videoInfo = useContext(VideoContext);
+    console.log('Table', videoInfo.videoInfo);
+    const quality = videoInfo.videoInfo.videos.items
+    console.log("Quality", quality);
+
+    const rows = [
+        createData(<TQuality />, '47.54 MB', <DownloadButton />),
+        // createData(<TQuality />, '47.54 MB', <DownloadButton />),
+        // createData(<TQuality />, '47.54 MB', <DownloadButton />),
+        // createData(<TQuality />, '47.54 MB', <DownloadButton />),
+    ];
+
+    function bytesToMB(bytes) {
+        const megabytes = bytes / (1024 * 1024);
+        return megabytes.toFixed(2);
     }
-];
-
-const columns = [
-    {
-        Header: 'Resolution',
-        accessor: 'resolution'
-    },
-    {
-        Header: 'File Size',
-        accessor: 'fileSize'
-    },
-    {
-        Header: 'Download',
-        accessor: 'button'
-    }
-];
-export const Table = () => {
-
-    const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        rows,
-        prepareRow
-    } = useTable({
-        columns,
-        data
-    });
 
     return (
         <>
-            <table {...getTableProps()}>
-                <thead>
-                    {headerGroups.map((headerGroup) => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map((column) => (
-                                <th className='border p-2' {...column.getHeaderProps()}>{column.render('Header')}</th>
-                            ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                    {rows.map((row) => {
-                        prepareRow(row);
-                        return (
-                            <tr {...row.getRowProps()}>
-                                {row.cells.map((cell) => (
-                                    <td className='border ps-5 p-2 pe-5' {...cell.getCellProps()}>{cell.render('Cell')}</td>
-                                ))}
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
-
+            <TableContainer component={Paper}>
+                <MuiTable sx={{}} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            {columns.map(item =>
+                            (
+                                <TableCell >{item}</TableCell>
+                            )
+                            )}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {quality.map((row) => (
+                            <TableRow
+                                key={row.quality}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                <TableCell component="th" scope="row">{row.quality}</TableCell>
+                                <TableCell align="right">{bytesToMB(row.size) + ' MB'}</TableCell>
+                                <TableCell align="right"><DownloadButton /></TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </MuiTable>
+            </TableContainer>
         </>
 
     );
 }
+
+
+
+
+
+
+
+
+
+
+
+// const columns = [
+//     {
+//         Header: 'Resolution',
+//         accessor: 'resolution'
+//     },
+//     {
+//         Header: 'File Size',
+//         accessor: 'fileSize'
+//     },
+//     {
+//         Header: 'Download',
+//         accessor: 'button'
+//     }
+// ];
+// export const Table = () => {
+
+//     const videoInfo = useContext(VideoContext);
+//     const [videoData, setvideoData] = useState(videoInfo);
+//     console.log(videoData.videoInfo);
+//     const quality = videoData.videoInfo.videos.items[0].quality
+//     console.log(videoData.videoInfo.videos.items[0].quality);
+//     const fileSizeInBytes = videoData.videoInfo.videos.items[0].size
+
+//     function bytesToMB(bytes) {
+//         const megabytes = bytes / (1024 * 1024);
+//         return megabytes.toFixed(2); // This will return the value rounded to 2 decimal places
+//     }
+//     const fileSizeInMB = bytesToMB(fileSizeInBytes);
+//     const qualityBadge = [`${quality} `, <Badge bg="primary" > full-HD </Badge>]
+
+//     const data = [
+//         {
+//             resolution: qualityBadge,
+//             fileSize: `${fileSizeInMB} MB`,
+//             button: <DownloadButton />
+//         },
+//     ];
+
+//     const {
+//         getTableProps,
+//         getTableBodyProps,
+//         headerGroups,
+//         rows,
+//         prepareRow
+//     } = useTable({
+//         columns,
+//         data
+//     });
+
+//     return (
+//         <>
+//             <table {...getTableProps()}>
+//                 <thead>
+//                     {headerGroups.map((headerGroup) => (
+//                         <tr {...headerGroup.getHeaderGroupProps()}>
+//                             {headerGroup.headers.map((column) => (
+//                                 <th className='border p-2' {...column.getHeaderProps()}>{column.render('Header')}</th>
+//                             ))}
+//                         </tr>
+//                     ))}
+//                 </thead>
+//                 <tbody {...getTableBodyProps()}>
+//                     {rows.map((row) => {
+//                         prepareRow(row);
+//                         return (
+//                             <tr {...row.getRowProps()}>
+//                                 {row.cells.map((cell) => (
+//                                     <td className='border ps-5 p-2 pe-5' {...cell.getCellProps()}>{cell.render('Cell')}</td>
+//                                 ))}
+//                             </tr>
+//                         );
+//                     })}
+//                 </tbody>
+//             </table>
+
+//         </>
+
+//     );
+// }
 
 
 

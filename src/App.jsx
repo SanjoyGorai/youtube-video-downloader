@@ -1,9 +1,9 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import './App.css'
 import axios from 'axios'
 import { ThreeDot } from 'react-loading-indicators';
 import { DownloadButton } from './components/DownloadButton';
-import { Table } from './components/Table';
+import { BasicTable } from './components/Table';
 import { FaLongArrowAltRight } from "react-icons/fa";
 import VideoContext from './contexts/VideoContext';
 import { Footer } from './components/Footer';
@@ -13,11 +13,13 @@ import { Link } from 'react-router-dom';
 function App() {
 
   const info = useContext(VideoContext);
-  console.log(info.videoInfo);
-  console.log("Data:", info.data);
+  const [data, setData] = useState(info);
+  console.log("VideoContext from App", data.videoInfo);
 
   const [inputValue, setInputValue] = useState('');
-  const [videoData, setvideoData] = useState();
+  const [videoData, setvideoData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -46,7 +48,7 @@ function App() {
   }
   const milliseconds = 1424056;
   const duration = msToMinutes(milliseconds);
-  console.log(duration);
+  // console.log(duration);
 
 
   const handleButtonClick = (event) => {
@@ -67,7 +69,7 @@ function App() {
     if (inputValue != ' ') {
       axios.get(url, options)
         .then(r => {
-          console.log("Data:", r.data)
+          console.log("Axios Data: ", r.data)
           setvideoData(r.data)
         })
         .catch(e => console.log(e));
@@ -81,11 +83,37 @@ function App() {
 
   };
 
+  const handleButtonClickFetch = async (event) => {
+    event.preventDefault();
+    if (inputValue == '') {
+      console.log("Null value");
+    } else {
+      const url = inputValue;
+      try {
+        console.log(inputValue);
+        setIsSubmitted(true);
+        setLoading(true);
+        await axios.get(url)
+          .then(res => {
+            setTimeout(() => {
+              // console.log(res.data)
+              setvideoData(res.data);
+              setLoading(false);
+            }, 1000);
+          });
+      } catch (error) {
+        console.log(e);
+      }
+    }
+
+  };
+
+
 
   return (
     <>
       <Navbar />
-      <div className='border border-green-500 p-4 rounded  '>
+      <div className='border border-green-500 p-4 rounded mt-2 '>
         <h2 className='mb-4 text-4xl text-cyan-300 font-roboto'>Download video Youtube 4K</h2>
         <form action="" className='mt-5 mb-4 flex justify-center'>
 
@@ -93,24 +121,28 @@ function App() {
             placeholder='Paste link here...' className='p-2.5 w-[480px] 
             border-[1.9px] border-pink-600 rounded-s outline-none' />
 
-          <button type='submit' className='bg-pink-600 flex items-center rounded-none rounded-e'
-            onClick={handleButtonClick}>Start   <FaLongArrowAltRight /> </button>
+          <button type='submit' className='bg-pink-600 hover:bg-pink-500 flex items-center rounded-none rounded-e ps-3 pe-3'
+            onClick={handleButtonClickFetch}> Start <FaLongArrowAltRight /> </button>
 
         </form>
 
-        <div className='flex justify-center '>
-          <div className='flex flex-col items-start'>
-            <img src='src/assets/bus.jpg' alt="thumbnail" className='max-w-80' />
-            {/* <h5 className='font-bold max-w-80'> {videoData?.title}</h5> */}
-            <h5 className='font-bold max-w-80 text-start '> {"Private Bus: উধাও হয়ে যাবে অন্তত ২ হাজার বেসরকারি বাস ! চরমে উঠতে চলেছে যাত্রীদের দুর্ভোগ ?"}</h5>
-            <p className='mt-2'>Duration: {duration}</p>
-          </div>
+        {isSubmitted ? (loading ? <ThreeDot /> : <div className='main-div'>
+          <div className='flex justify-center '>
+            <div className='flex flex-col items-start'>
+              <img src='src/assets/bus.jpg' alt="thumbnail" className='max-w-80' />
+              {/* <h5 className='font-bold max-w-80'> {videoData?.title}</h5> */}
+              <h5 className='font-bold max-w-80 text-start '> {"Private Bus: উধাও হয়ে যাবে অন্তত ২ হাজার বেসরকারি বাস ! চরমে উঠতে চলেছে যাত্রীদের দুর্ভোগ ?"}</h5>
+              <p className='mt-2'>Duration: {duration}</p>
+            </div>
 
-          <div className='ms-4 '>
-            <Table />
-            {/* <DownloadButton click={handleDownload} /> */}
+            <div className='ms-4 '>
+              <BasicTable />
+              {/* <DownloadButton click={handleDownload} /> */}
+            </div>
           </div>
-        </div>
+        </div>) : ''}
+
+
 
         <div className='mt-5 invisible' id='indi'>
           <ThreeDot color="#32cd32" size="medium" text="" textColor="" />
@@ -118,7 +150,7 @@ function App() {
 
         <hr className='mb-4 mt-03' />
         <div className='flex flex-col items-start'>
-          <p className='text-[16px] mt-3 mb-2'>Tip: Insert "zz" after the word "youtube" in the link to download videos and mp3 files from YouTube as a faster way.</p>
+          <p className='text-[16px] mt-3 mb-2'>Tip: Insert "zz" after the word "youtube" in the link to download videos and mp3 files from YouTube as Link faster way.</p>
           <img src="src/assets/download_img.jpg" alt="" className='mt-2 mb-2' />
           <div className='flex'>
             <div className='w-44 mt-2 flex flex-col items-start'>
@@ -136,6 +168,7 @@ function App() {
               <p className='mt-2 text-[16px] font-roboto'>  Step2: In new window, press "CTRL + S" to save video OR right click to <br />
                 video, then select "Save as Video".</p>
             </div>
+
           </div>
         </div>
 
