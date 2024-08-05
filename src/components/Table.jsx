@@ -32,7 +32,7 @@ const columns = ['Resolution', 'File Size', 'Download'];
 export const BasicTable = () => {
 
     const { videoData, setvideoData } = useContext(VideoContext);
-    const videoItems = videoData.videos.items
+    const videoItems = videoData.adaptiveFormats
 
     function bytesToSize(bytes) {
         const kb = 1024;
@@ -52,30 +52,35 @@ export const BasicTable = () => {
 
     return (
         <>
-            <TableContainer component={Paper} className='border' >
-                <MuiTable sx={{}} aria-label="simple table">
-                    <TableHead >
-                        <TableRow>
-                            {columns.map((item, key) =>
-                            (
-                                <TableCell key={key}>{item}</TableCell>
-                            )
-                            )}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody >
-                        {videoItems.map((item, key) => (
-                            <TableRow
-                                key={key}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                <TableCell component="th" scope="row">{item.quality}</TableCell>
-                                <TableCell className='text-start border-s border-e' align="right">{bytesToSize(item.size)}</TableCell>
-                                <TableCell align="right" ><DownloadButton className='bg-fuchsia-500' /></TableCell>
+            {videoData == undefined ?
+                <TableContainer component={Paper} className='border' >
+                    <MuiTable sx={{}} aria-label="simple table">
+                        <TableHead >
+                            <TableRow>
+                                {columns.map((item, key) =>
+                                (
+                                    <TableCell key={key}>
+                                        {item}
+                                    </TableCell>
+                                )
+                                )}
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </MuiTable>
-            </TableContainer>
+                        </TableHead>
+                        <TableBody >
+                            {videoData == undefined || null ?
+                                videoItems.map((item, key) => (
+                                    <TableRow
+                                        key={key}
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                        <TableCell component="th" scope="row">{item?.qualityLabel}</TableCell>
+                                        <TableCell className='text-start border-s border-e' align="right">{bytesToSize(item?.contentLength)}</TableCell>
+                                        <TableCell align="right" ><DownloadButton className='bg-fuchsia-500' /></TableCell>
+                                    </TableRow>
+                                )) : ''}
+                        </TableBody>
+                    </MuiTable>
+                </TableContainer>
+                : ''}
         </>
 
     );

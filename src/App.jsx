@@ -23,8 +23,9 @@ function App() {
 
   const [loading, setLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isError, setIsError] = useState(null)
   const { videoData, setvideoData } = useContext(VideoContext);
-  console.log(videoData);
+  // console.log(videoData);
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -38,6 +39,7 @@ function App() {
   const url8k = 'https://youtu.be/ZgFrE4jfAPE?si=Jvylwc1nAIoX0bvh'  // WILDLIFE & ANIMAL ADVENTURES 60FPS 8K VIDEO ULTRA HD #8K
   const urlOlderVideo = 'https://youtu.be/LeAltgu_pbM?si=oHdxhpV0hGkLgO9F'
   // WILDLIFE & ANIMAL ADVENTURES 60FPS 8K VIDEO ULTRA HD #8K
+  const url12k = 'https://youtu.be/7PIji8OubXU?si=lDVqYV4VyFjbt16F'
 
   function extractVideoId(url) {
     if (url.includes('youtu.be')) {
@@ -67,13 +69,13 @@ function App() {
 
   const handleStartButtonClick = (event) => {
     event.preventDefault();
-    console.log(`Input value: ${inputValue}`);
     const videoUrl = inputValue;
     const videoId = extractVideoId(videoUrl)
-    console.log(videoId);
-    const url = `https://youtube-media-downloader.p.rapidapi.com/v2/video/details?videoId=${videoId}`;
+    const url = `https:youtube-media-downloader.p.rapidapi.com/v2/video/details`; // YT-API
     const options = {
       method: 'GET',
+      url: url,
+      params: { id: videoId },
       headers: {
         'x-rapidapi-key': '6e4f3542d1msh4d2f7d5fc314f58p1e1532jsn38558c63b3d7',
         'x-rapidapi-host': 'youtube-media-downloader.p.rapidapi.com'
@@ -83,6 +85,7 @@ function App() {
     if (inputValue == '') {
       console.log("Null value");
     } else {
+      setIsError(false);
       setIsSubmitted(true);
       setLoading(true);
       axios.get(url, options)
@@ -91,35 +94,15 @@ function App() {
           console.log("Axios Data: ", res.data)
           setLoading(false);
         })
-        .catch(e => console.log(e));
+        .catch(e => {
+          setIsError(true);
+          console.log("Fetch Error: ", e.message);
+          setLoading(false);
+        });
     }
 
   };
 
-  const handleButtonClickFetch = async (event) => {
-    event.preventDefault();
-    if (inputValue == '') {
-      console.log("Null value");
-    } else {
-      const url = inputValue;
-      try {
-        setIsSubmitted(true);
-        setLoading(true);
-        await axios.get(url)
-          .then(res => {
-            setTimeout(() => {
-              console.log("Response: ", res.data)
-              setvideoData(res.data);
-              // setData(res.data)
-              setLoading(false);
-            }, 1000);
-          });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-
-  };
 
   return (
     <>
@@ -127,29 +110,32 @@ function App() {
       <div className='border border-green-500 p-4 rounded-s mt-2'>
         <div className='flex flex-col items-center'>
           <h2 className='mb-8 text-3xl text-cyan-300 font-roboto lg:text-4xl'>Download video Youtube 4K</h2>
-          <div className='bg-red-400'>
+          <div className=''>
             <form action="" className='flex '>
               <input type="text" value={inputValue} onChange={handleInputChange}
                 placeholder='Paste link here...' className='p-2.5 min-w-96   
-            border-2 border-pink-600 rounded-s outline-none lg:w-[500px]'  />
+            border-2 border-pink-600 rounded-l outline-none lg:w-[500px]'  />
 
               <button type='submit' className='bg-pink-600 hover:bg-pink-500 flex items-center rounded-none rounded-e ps-3 pe-3'
-                onClick={handleStartButtonClick}> Start <FaLongArrowAltRight />
+                onClick={handleStartButtonClick}> Start <FaLongArrowAltRight style={{ marginLeft: '2px' }} />
               </button>
 
             </form>
           </div>
 
         </div>
-        
+
         <div className='mt-2 mb-2'>
           {isSubmitted ? (loading ? <BeatLoader color='#00FF00' /> :
             <div className='mt-2'>
               <div className='flex flex-col justify-center items-center lg:flex lg:flex-row lg:justify-center lg:items-start '>
                 <div className='flex-col items-start mt-3'>
-                  <img src={videoData.thumbnails?.length > 4 ? (videoData.thumbnails[4].url) : (videoData.thumbnails[3].url)} alt="thumbnail" className='max-w-96' />
-                  <h5 className='font-bold max-w-80 text-start '> {videoData.title}</h5>
-                  <p className='mt-2 font-roboto text-start'>Duration: {msToTimeFormat(videoData.videos.items[0].lengthMs)}</p>
+                  {videoData.length > 0 ?
+                    <img src={videoData > 0 ? videoData?.thumbnail.length > 4 ? (videoData?.thumbnail[4]?.url) : (videoData?.thumbnail[3]?.url) : ''}
+                      alt="thumbnail" className='max-w-96' />
+                    : ''}
+                  {/* <h5 className='font-bold max-w-80 text-start '> {videoData?.title}</h5>
+                  <p className='mt-2 font-roboto text-start'>Duration: {msToTimeFormat(videoData?.adaptiveFormats[0].approxDurationMs)}</p> */}
                 </div>
 
                 <div className='ms-4 mt-3'>
@@ -225,3 +211,30 @@ function App() {
 }
 
 export default App
+
+
+
+const handleButtonClickFetch = async (event) => {
+  event.preventDefault();
+  if (inputValue == '') {
+    console.log("Null value");
+  } else {
+    const url = inputValue;
+    try {
+      setIsSubmitted(true);
+      setLoading(true);
+      await axios.get(url)
+        .then(res => {
+          setTimeout(() => {
+            console.log("Response: ", res.data)
+            setvideoData(res.data);
+            // setData(res.data)
+            setLoading(false);
+          }, 1000);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+};
