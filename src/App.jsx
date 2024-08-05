@@ -71,14 +71,15 @@ function App() {
     event.preventDefault();
     const videoUrl = inputValue;
     const videoId = extractVideoId(videoUrl)
-    const url = `https:youtube-media-downloader.p.rapidapi.com/v2/video/details`; // YT-API
+    const url = `https://yt-api.p.rapidapi.com/dl`; // YT-API
     const options = {
       method: 'GET',
-      url: url,
+      url: 'https://yt-api.p.rapidapi.com/dl',
       params: { id: videoId },
       headers: {
         'x-rapidapi-key': '6e4f3542d1msh4d2f7d5fc314f58p1e1532jsn38558c63b3d7',
-        'x-rapidapi-host': 'youtube-media-downloader.p.rapidapi.com'
+        'x-rapidapi-host': 'yt-api.p.rapidapi.com'
+        // 'x-rapidapi-host': 'youtube-media-downloader.p.rapidapi.com'
       }
     };
 
@@ -130,23 +131,24 @@ function App() {
             <div className='mt-2'>
               <div className='flex flex-col justify-center items-center lg:flex lg:flex-row lg:justify-center lg:items-start '>
                 <div className='flex-col items-start mt-3'>
-                  {videoData.length > 0 ?
-                    <img src={videoData > 0 ? videoData?.thumbnail.length > 4 ? (videoData?.thumbnail[4]?.url) : (videoData?.thumbnail[3]?.url) : ''}
-                      alt="thumbnail" className='max-w-96' />
-                    : ''}
-                  {/* <h5 className='font-bold max-w-80 text-start '> {videoData?.title}</h5>
-                  <p className='mt-2 font-roboto text-start'>Duration: {msToTimeFormat(videoData?.adaptiveFormats[0].approxDurationMs)}</p> */}
-                </div>
+                  <img src={videoData?.thumbnail?.length > 0 ? videoData?.thumbnail?.length > 4 ?
+                    (videoData?.thumbnail[4]?.url) : (videoData?.thumbnail[3]?.url) : ''}
+                    alt="thumbnail" className='max-w-96 object-fill' />
 
+                  <h5 className='font-bold max-w-80 text-start '> {videoData?.title}</h5>
+                  <p className='mt-2 font-roboto text-start'>Duration:
+                    {msToTimeFormat(videoData?.adaptiveFormats[0].approxDurationMs)}</p>
+                </div>
                 <div className='ms-4 mt-3'>
                   <BasicTable />
                 </div>
               </div>
             </div>
-          ) : ''}
+          )
+            : ''}
         </div>
 
-        <hr className='mb-4 mt-03' />
+        <hr className='mb-4 mt-5' />
         <div className='flex flex-col items-start'>
           <p className='mt-3 mb-2 text-start '>Tip: Insert "zz" after the word "youtube" in the link to download videos and mp3 files from YouTube as Link faster way.</p>
           <img src="src/assets/download_img.jpg" alt="" className='mt-2 mb-2' />

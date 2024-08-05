@@ -32,7 +32,10 @@ const columns = ['Resolution', 'File Size', 'Download'];
 export const BasicTable = () => {
 
     const { videoData, setvideoData } = useContext(VideoContext);
-    const videoItems = videoData.adaptiveFormats
+    const videoItems = videoData.adaptiveFormats;
+
+    const uniqueItems = Array.from(new Map(videoItems?.map(item => [item.height, item])).values());
+    const mappedItems = uniqueItems.map(item => ({ ...item }));
 
     function bytesToSize(bytes) {
         const kb = 1024;
@@ -52,7 +55,7 @@ export const BasicTable = () => {
 
     return (
         <>
-            {videoData == undefined ?
+            {videoData != undefined ?
                 <TableContainer component={Paper} className='border' >
                     <MuiTable sx={{}} aria-label="simple table">
                         <TableHead >
@@ -67,16 +70,18 @@ export const BasicTable = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody >
-                            {videoData == undefined || null ?
-                                videoItems.map((item, key) => (
-                                    <TableRow
-                                        key={key}
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                        <TableCell component="th" scope="row">{item?.qualityLabel}</TableCell>
-                                        <TableCell className='text-start border-s border-e' align="right">{bytesToSize(item?.contentLength)}</TableCell>
-                                        <TableCell align="right" ><DownloadButton className='bg-fuchsia-500' /></TableCell>
-                                    </TableRow>
-                                )) : ''}
+                            {
+                                mappedItems?.sort((a, b) => a.height - b.height)
+                                    .map((item, key) => (
+                                        <TableRow
+                                            key={key}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                            <TableCell component="th" scope="row">{item?.qualityLabel}</TableCell>
+                                            <TableCell className='text-start border-s border-e' align="right">{bytesToSize(item?.contentLength)}</TableCell>
+                                            <TableCell align="right" ><DownloadButton className='bg-fuchsia-500' /></TableCell>
+                                        </TableRow>
+                                    ))
+                            }
                         </TableBody>
                     </MuiTable>
                 </TableContainer>
@@ -92,7 +97,18 @@ export const BasicTable = () => {
 
 
 
-
+// videoItems?.sort((a, b) => b.height - a.height)
+//     .slice(0, 5)
+//     .sort((a, b) => a.height - b.height)
+//     .map((item, key) => (
+//         <TableRow
+//             key={key}
+//             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+//             <TableCell component="th" scope="row">{item?.qualityLabel}</TableCell>
+//             <TableCell className='text-start border-s border-e' align="right">{bytesToSize(item?.contentLength)}</TableCell>
+//             <TableCell align="right" ><DownloadButton className='bg-fuchsia-500' /></TableCell>
+//         </TableRow>
+//     ))
 
 
 
