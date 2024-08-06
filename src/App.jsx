@@ -15,9 +15,12 @@ import Video from './components/Video';
 import { VideoNotFound } from './components/VideoNotFound';
 import { SubContent } from './components/SubContent';
 import { Guide } from './components/Guide';
+import { AdImage } from './components/AdImage';
+import { useStepperContext } from '@mui/material';
+import ImageLoadContext from './contexts/ImageLoadContext';
+
 
 function App() {
-
 
   const [inputValue, setInputValue] = useState('');
   // const [videoData, setvideoData] = useState(null);
@@ -27,7 +30,9 @@ function App() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isError, setIsError] = useState(null)
   const { videoData, setvideoData } = useContext(VideoContext);
-  // console.log(videoData);
+  const { showElement, setShowElement } = useContext(ImageLoadContext);
+  console.log("from App ", showElement);
+
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -83,6 +88,10 @@ function App() {
           setvideoData(res.data);
           console.log("Axios Data: ", res.data)
           setLoading(false);
+          setTimeout(() => {
+            setShowElement(true);
+          }, 2000);
+
         })
         .catch(e => {
           setIsError(true);
@@ -117,7 +126,11 @@ function App() {
         <div className='mt-3 mb-2'>
           {isSubmitted ? (loading ? <BeatLoader color='#00FF00' className='mt-5' /> :
             <div className='flex mt-2'>
-              <Video />
+              <div>
+                <Video />
+                <AdImage />
+              </div>
+
               <div className='ms-4 mt-4'>
                 <BasicTable />
               </div>

@@ -8,6 +8,7 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import ErrorPage from './error-page.jsx'
+import ImageLoadProvider from './contexts/ImageLoadProvider.jsx'
 
 const router = createBrowserRouter([
     {
@@ -23,6 +24,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <VideoProvider>
-        <RouterProvider router={router} />
+        <ImageLoadProvider>
+            <RouterProvider router={router} />
+        </ImageLoadProvider>
     </VideoProvider>
 )
