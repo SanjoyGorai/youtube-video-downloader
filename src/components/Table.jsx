@@ -60,10 +60,10 @@ export const BasicTable = () => {
                 <TableContainer component={Paper} className='border' >
                     <MuiTable sx={{}} aria-label="simple table">
                         <TableHead >
-                            <TableRow>
+                            <TableRow >
                                 {columns.map((item, key) =>
                                 (
-                                    <TableCell key={key}>
+                                    <TableCell key={key} >
                                         {item}
                                     </TableCell>
                                 )
