@@ -33,6 +33,7 @@ export const BasicTable = () => {
 
     const { videoData, setvideoData } = useContext(VideoContext);
     const videoItems = videoData.adaptiveFormats;
+    const length = Object.keys(videoData).length;
 
     const uniqueItems = Array.from(new Map(videoItems?.map(item => [item.height, item])).values());
     const mappedItems = uniqueItems.map(item => ({ ...item }));
@@ -55,7 +56,7 @@ export const BasicTable = () => {
 
     return (
         <>
-            {videoData != undefined ?
+            {length > 3 ?
                 <TableContainer component={Paper} className='border' >
                     <MuiTable sx={{}} aria-label="simple table">
                         <TableHead >

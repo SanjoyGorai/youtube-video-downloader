@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import VideoContext from '../contexts/VideoContext'
 import { BasicTable } from './Table';
+import { VideoNotFound } from './VideoNotFound';
 
 const imageUrl = 'https://i.ytimg.com/vi/fCVm5U2ob8U/mqdefault.jpg'
 
@@ -36,7 +37,7 @@ const Video = () => {
                   <h5 className='font-bold max-w-80 text-start '> {videoData.title}  </h5>
                   <p className='mt-2 font-roboto text-start'>{`Duration: ${msToTimeFormat(videoData.adaptiveFormats[0].approxDurationMs)} `} </p>
                 </>
-                : `An error occurred!`
+                : <VideoNotFound />
             }
           </div>
         </div>
