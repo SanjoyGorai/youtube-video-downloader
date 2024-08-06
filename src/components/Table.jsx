@@ -76,7 +76,7 @@ export const BasicTable = () => {
                                         <TableRow
                                             key={key}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                            <TableCell component="th" scope="row">{item?.qualityLabel}</TableCell>
+                                            <TableCell component="th" scope="row">{`${item?.qualityLabel} (.${item?.mimeType.substring(6, 9)})`}</TableCell>
                                             <TableCell className='text-start border-s border-e' align="right">{bytesToSize(item?.contentLength)}</TableCell>
                                             <TableCell align="right" ><DownloadButton className='bg-fuchsia-500' /></TableCell>
                                         </TableRow>

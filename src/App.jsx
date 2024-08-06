@@ -13,6 +13,8 @@ import BeatLoader from "react-spinners/BeatLoader";
 import { BsGiftFill } from "react-icons/bs";
 import { FaAudioDescription } from "react-icons/fa";
 import { MdOutlineDownloadDone } from "react-icons/md";
+import Video from './components/Video';
+import { VideoNotFound } from './components/VideoNotFound';
 
 function App() {
 
@@ -40,6 +42,8 @@ function App() {
   const urlOlderVideo = 'https://youtu.be/LeAltgu_pbM?si=oHdxhpV0hGkLgO9F'
   // WILDLIFE & ANIMAL ADVENTURES 60FPS 8K VIDEO ULTRA HD #8K
   const url12k = 'https://youtu.be/7PIji8OubXU?si=lDVqYV4VyFjbt16F'
+  const url12KHDR = 'https://www.youtube.com/watch?v=fCVm5U2ob8U' //12K HDR Video ULTRA HD 240 FPS Dolby Vision
+
 
   function extractVideoId(url) {
     if (url.includes('youtu.be')) {
@@ -50,21 +54,6 @@ function App() {
   }
   function handleDownload(event) {
     console.log(event.target.id);
-  }
-
-  function msToTimeFormat(ms) {
-    let seconds = Math.floor(ms / 1000);
-    let minutes = Math.floor(seconds / 60);
-    let hours = Math.floor(minutes / 60);
-
-    seconds = seconds % 60;
-    minutes = minutes % 60;
-
-    if (hours > 0) {
-      return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    } else {
-      return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-    }
   }
 
   const handleStartButtonClick = (event) => {
@@ -106,7 +95,7 @@ function App() {
 
 
   return (
-    <>
+    <div className='flex flex-col items-center'>
       <Navbar />
       <div className='border border-green-500 p-4 rounded-s mt-2'>
         <div className='flex flex-col items-center'>
@@ -128,22 +117,13 @@ function App() {
 
         <div className='mt-2 mb-2'>
           {isSubmitted ? (loading ? <BeatLoader color='#00FF00' /> :
-            <div className='mt-2'>
-              <div className='flex flex-col justify-center items-center lg:flex lg:flex-row lg:justify-center lg:items-start '>
-                <div className='flex-col items-start mt-3'>
-                  <img src={videoData?.thumbnail?.length > 0 ? videoData?.thumbnail?.length > 4 ?
-                    (videoData?.thumbnail[4]?.url) : (videoData?.thumbnail[3]?.url) : ''}
-                    alt="thumbnail" className='max-w-96 object-fill' />
-
-                  <h5 className='font-bold max-w-80 text-start '> {videoData?.title}</h5>
-                  <p className='mt-2 font-roboto text-start'>Duration:
-                    {msToTimeFormat(videoData?.adaptiveFormats[0].approxDurationMs)}</p>
-                </div>
-                <div className='ms-4 mt-3'>
-                  <BasicTable />
-                </div>
+            <div className='flex mt-2'>
+              <Video />
+              <div className='ms-4 mt-4'>
+                <BasicTable />
               </div>
             </div>
+
           )
             : ''}
         </div>
@@ -208,7 +188,7 @@ function App() {
       </div>
 
       <Footer />
-    </>
+    </div>
   )
 }
 
@@ -216,27 +196,27 @@ export default App
 
 
 
-const handleButtonClickFetch = async (event) => {
-  event.preventDefault();
-  if (inputValue == '') {
-    console.log("Null value");
-  } else {
-    const url = inputValue;
-    try {
-      setIsSubmitted(true);
-      setLoading(true);
-      await axios.get(url)
-        .then(res => {
-          setTimeout(() => {
-            console.log("Response: ", res.data)
-            setvideoData(res.data);
-            // setData(res.data)
-            setLoading(false);
-          }, 1000);
-        });
-    } catch (e) {
-      console.log(e);
-    }
-  }
+// const handleButtonClickFetch = async (event) => {
+//   event.preventDefault();
+//   if (inputValue == '') {
+//     console.log("Null value");
+//   } else {
+//     const url = inputValue;
+//     try {
+//       setIsSubmitted(true);
+//       setLoading(true);
+//       await axios.get(url)
+//         .then(res => {
+//           setTimeout(() => {
+//             console.log("Response: ", res.data)
+//             setvideoData(res.data);
+//             // setData(res.data)
+//             setLoading(false);
+//           }, 1000);
+//         });
+//     } catch (e) {
+//       console.log(e);
+//     }
+//   }
 
-};
+// };
