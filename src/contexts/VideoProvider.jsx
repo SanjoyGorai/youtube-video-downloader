@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react'
-import VideoContext from './VideoContext';
+import VideoContext, { SearchVideoContext } from './VideoContext';
 import { DownloadButton } from '../components/DownloadButton';
 
 const videoInfo = {
@@ -133,16 +133,27 @@ const videoInfo = {
 
 const VideoProvider = ({ children }) => {
 
-    const [videoData, setvideoData] = useState({});
+    const [videoData, setVideoData] = useState({});
 
     return (
-        <VideoContext.Provider value={{ videoData, setvideoData }}>
+        <VideoContext.Provider value={{ videoData, setVideoData }}>
             {children}
         </VideoContext.Provider >
     );
 }
 export default VideoProvider;
 
+
+export const SearchVideoProvider = ({children}) => {
+
+    const [searchVideoData, setSearchVideoData] = useState({});
+
+    return (
+        <SearchVideoContext.Provider value={{ searchVideoData, setSearchVideoData }}>
+            {children}
+        </SearchVideoContext.Provider >
+    )
+}
 
 
 

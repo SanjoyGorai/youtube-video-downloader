@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
-import VideoProvider from './contexts/VideoProvider.jsx'
+import VideoProvider, { SearchVideoProvider } from './contexts/VideoProvider.jsx'
 import {
     createBrowserRouter,
     RouterProvider,
@@ -24,8 +24,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <VideoProvider>
-        <ImageLoadProvider>
-            <RouterProvider router={router} />
-        </ImageLoadProvider>
+        <SearchVideoProvider>
+            <ImageLoadProvider>
+                <RouterProvider router={router} />
+            </ImageLoadProvider>
+        </SearchVideoProvider>
     </VideoProvider>
 )

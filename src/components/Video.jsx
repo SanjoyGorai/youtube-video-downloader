@@ -7,7 +7,11 @@ const imageUrl = 'https://i.ytimg.com/vi/fCVm5U2ob8U/mqdefault.jpg'
 
 const Video = () => {
 
-  const { videoData, setvideoData } = useContext(VideoContext);
+  const { videoData, setVideoData } = useContext(VideoContext);
+  console.log('Video : ', videoData);
+
+
+
   const length = Object.keys(videoData).length;
 
   function msToTimeFormat(ms) {
@@ -29,9 +33,9 @@ const Video = () => {
     <div>
       <div className='mt-2'>
         <div className='flex flex-col justify-center items-center lg:flex lg:flex-row lg:justify-center lg:items-start '>
-          {/* <div className='flex-col items-start mt-3'>
+          <div className='flex-col items-start mt-3'>
             {
-              length > 3 ?
+              length > 5 ?
                 <><img src={videoData.thumbnail[1].url}
                   alt="thumbnail" className='max-w-96 object-fill' />
                   <h5 className='font-bold max-w-80 text-start '> {videoData.title}  </h5>
@@ -39,7 +43,7 @@ const Video = () => {
                 </>
                 : <VideoNotFound />
             }
-          </div> */}
+          </div>
         </div>
       </div>
     </div>

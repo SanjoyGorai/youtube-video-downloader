@@ -5,7 +5,7 @@ import { ThreeDot } from 'react-loading-indicators';
 import { DownloadButton } from './components/DownloadButton';
 import { BasicTable } from './components/Table';
 import { FaLongArrowAltRight } from "react-icons/fa";
-import VideoContext from './contexts/VideoContext';
+import VideoContext, { SearchVideoContext } from './contexts/VideoContext';
 import { Footer } from './components/Footer';
 import { Navbar } from './components/Navbar';
 import { Link } from 'react-router-dom';
@@ -18,6 +18,7 @@ import { Guide } from './components/Guide';
 import { AdImage } from './components/AdImage';
 import { useStepperContext } from '@mui/material';
 import ImageLoadContext from './contexts/ImageLoadContext';
+import { SearchVideos } from './components/SearchVideos';
 
 
 function App() {
@@ -27,7 +28,8 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isError, setIsError] = useState(null)
-  const { videoData, setvideoData } = useContext(VideoContext);
+  const { videoData, setVideoData } = useContext(VideoContext);
+  const { searchVideoData, setSearchVideoData } = useContext(SearchVideoContext);
   const { showElement, setShowElement } = useContext(ImageLoadContext);
 
   const handleInputChange = (event) => {
@@ -68,10 +70,9 @@ function App() {
 
     try {
       const response = await axios.request(options);
-      console.log("Axios Response: ", response)
-      console.log("Axios Data: ", response.data)
       console.log("Axios Actual Data: ", response.data.data)
-      setvideoData(response.data);
+      const responseData = response.data;
+      setSearchVideoData(responseData.data);
       setLoading(false);
       setTimeout(() => {
         setShowElement(true);
@@ -108,7 +109,7 @@ function App() {
       if (isValidURL(inputValue)) {
         axios.get(url, options)
           .then(res => {
-            setvideoData(res.data);
+            setVideoData(res.data);
             console.log("Axios Data: ", res.data)
             setLoading(false);
             setTimeout(() => {
@@ -153,8 +154,9 @@ function App() {
           {isSubmitted ? (loading ? <BeatLoader color='#00FF00' className='mt-5' /> :
             <div className='flex mt-2'>
               <div>
-                <Video />
-                <AdImage />
+                {/* <Video />
+                <AdImage /> */}
+                <SearchVideos/>
               </div>
 
               <div className='ms-4 mt-4'>

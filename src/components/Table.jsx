@@ -56,7 +56,7 @@ export const BasicTable = () => {
 
     return (
         <>
-            {length > 3 ?
+            {length > 5 ?
                 <TableContainer component={Paper} className='border' >
                     <MuiTable sx={{}} aria-label="simple table">
                         <TableHead >
