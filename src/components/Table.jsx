@@ -35,7 +35,8 @@ export const BasicTable = () => {
     const videoItems = videoData.adaptiveFormats;
     const length = Object.keys(videoData).length;
 
-    const uniqueItems = Array.from(new Map(videoItems?.map(item => [item.height, item])).values());
+    const uniqueItems = Array.from(new Map(videoItems?.
+        map(item => [item.height, item])).values());
     const mappedItems = uniqueItems.map(item => ({ ...item }));
 
     function bytesToSize(bytes) {
