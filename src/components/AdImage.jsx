@@ -3,11 +3,11 @@ import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import ImageLoadContext from '../contexts/ImageLoadContext';
 import VideoContext from '../contexts/VideoContext';
+import Video from './Video';
 
 export const AdImage = () => {
     const { showElement, setShowElement } = useContext(ImageLoadContext);
     const { videoData, setVideoData } = useContext(VideoContext);
-    console.log("from Add image ", showElement);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -20,7 +20,13 @@ export const AdImage = () => {
         <div>
             <div>
                 {showElement ?
-                    <img src={videoData.thumbnail[1].url} className='mt-4' alt='img' />
+                    (
+                        <>
+                            <img src={'https://i.ytimg.com/vi/coUY1kd8xFk/mqdefault.jpg'} className='mt-4' alt='img' />
+                            <h5 className='font-bold max-w-80 text-start '> {'Incredible 4K HDR 60 FPS Dolby Vision (4K Video)'}  </h5>
+                            <img src={'https://i.ytimg.com/vi/nBwMnDK4wNs/mqdefault.jpg'} className='mt-4' alt='img' />
+                        </>
+                    )
                     : (
                         <Stack spacing={1} className='mt-4'>
                             {/* For variant="text", adjust the height via font-size */}

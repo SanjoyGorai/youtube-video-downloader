@@ -29,7 +29,7 @@ const Video = () => {
     <div>
       <div className='mt-2'>
         <div className='flex flex-col justify-center items-center lg:flex lg:flex-row lg:justify-center lg:items-start '>
-          <div className='flex-col items-start mt-3'>
+          {/* <div className='flex-col items-start mt-3'>
             {
               length > 3 ?
                 <><img src={videoData.thumbnail[1].url}
@@ -39,7 +39,7 @@ const Video = () => {
                 </>
                 : <VideoNotFound />
             }
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
