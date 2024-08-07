@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 export const VideoCard = () => {
 
     const { searchVideoData, setSearchVideoData } = useContext(SearchVideoContext);
-    console.log(searchVideoData);
+    console.log('VideoCard: ', searchVideoData);
 
     const imagePlaceholder = `https://react.semantic-ui.com/images/image-16by9.png`
 
@@ -22,7 +22,7 @@ export const VideoCard = () => {
                                     <Link to={'/'}>
                                         <div className="relative">
                                             <img
-                                                className="w-full  object-cover"
+                                                className="w-full object-cover"
                                                 src={item.thumbnail != undefined ? item?.thumbnail[0]?.url : imagePlaceholder}
                                                 alt="Video Thumbnail"
                                             />

@@ -12,9 +12,9 @@ import ImageLoadProvider from './contexts/ImageLoadProvider.jsx'
 
 const router = createBrowserRouter([
     {
-        path: "/",
-        element: <App />,
-        errorElement: <ErrorPage />
+        path: "/", 
+        element: <App /> ,
+        errorElement: <ErrorPage />,
     },
     {
         path: "contacts/",

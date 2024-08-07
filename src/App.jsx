@@ -31,11 +31,11 @@ function App() {
   const { videoData, setVideoData } = useContext(VideoContext);
   const { searchVideoData, setSearchVideoData } = useContext(SearchVideoContext);
   const { showElement, setShowElement } = useContext(ImageLoadContext);
+  const [videoFromUrl, setVideoFromUrl] = useState(false);
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
-
 
   function extractVideoId(url) {
     if (url.includes('youtu.be')) {
@@ -104,13 +104,15 @@ function App() {
       console.log("Null value");
     } else {
       setIsError(false);
+      setVideoFromUrl(false);
       setIsSubmitted(true);
       setLoading(true);
       if (isValidURL(inputValue)) {
         axios.get(url, options)
           .then(res => {
             setVideoData(res.data);
-            console.log("Axios Data: ", res.data)
+            console.log("Axios Data: ", res.data);
+            setVideoFromUrl(true);
             setLoading(false);
             setTimeout(() => {
               setShowElement(true);
@@ -153,12 +155,16 @@ function App() {
         <div className='mt-3 mb-2'>
           {isSubmitted ? (loading ? <BeatLoader color='#00FF00' className='mt-5' /> :
             <div className='flex mt-2'>
-              <div>
-                {/* <Video />
-                <AdImage /> */}
-                <SearchVideos/>
-              </div>
-
+              {
+                videoFromUrl ?
+                  (
+                    <div>
+                      <Video />
+                      {/* <AdImage />   */}
+                      {/* <SearchVideos /> */}
+                    </div>
+                  ) : <SearchVideos />
+              }
               <div className='ms-4 mt-4'>
                 <BasicTable />
               </div>
