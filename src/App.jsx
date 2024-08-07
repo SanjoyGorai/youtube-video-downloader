@@ -1,5 +1,4 @@
 import { useContext, useState, useEffect } from 'react'
-import './App.css'
 import axios from 'axios'
 import { ThreeDot } from 'react-loading-indicators';
 import { DownloadButton } from './components/DownloadButton';
@@ -132,13 +131,13 @@ function App() {
   };
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col m-auto max-w-[900px] text-center p-0'>
       <Navbar />
       <div className='border flex flex-col justify-center items-center border-green-500 p-4 rounded mt-2'>
         <div className='flex flex-col items-center'>
           <h2 className='mb-8 text-3xl text-cyan-300 font-roboto lg:text-4xl'>Download video Youtube 4K</h2>
           <div className=''>
-            <form action="" className='flex '>
+            <form action="" className='flex flex-row'>
               <input type="text" value={inputValue} onChange={handleInputChange}
                 placeholder='Paste link here...' className='p-2.5 min-w-96   
             border-2 border-pink-600 rounded-l outline-none lg:w-[500px]'  />
@@ -154,20 +153,19 @@ function App() {
 
         <div className='mt-3 mb-2'>
           {isSubmitted ? (loading ? <BeatLoader color='#00FF00' className='mt-5' /> :
-            <div className='flex mt-2'>
+            <div className='mt-2'>
               {
                 videoFromUrl ?
                   (
-                    <div>
-                      <Video />
-                      {/* <AdImage />   */}
-                      {/* <SearchVideos /> */}
+                    <div className=''>
+                      <div className='grid grid-cols-2 '>
+                        <Video />
+                        <BasicTable />
+                      </div>
+                      <AdImage />
                     </div>
                   ) : <SearchVideos />
               }
-              <div className='ms-4 mt-4'>
-                <BasicTable />
-              </div>
             </div>
           )
             : ''}

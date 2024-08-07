@@ -73,7 +73,9 @@ export const BasicTable = () => {
                         </TableHead>
                         <TableBody >
                             {
-                                mappedItems?.sort((a, b) => a.height - b.height)
+                                mappedItems
+                                    .filter(item => item.qualityLabel != undefined)
+                                    .sort((a, b) => a.height - b.height)
                                     .map((item, key) => (
                                         <TableRow
                                             key={key}
