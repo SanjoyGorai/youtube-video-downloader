@@ -3,7 +3,7 @@ import axios from 'axios'
 import { ThreeDot } from 'react-loading-indicators';
 import { DownloadButton } from './components/DownloadButton';
 import { BasicTable } from './components/Table';
-import { FaLongArrowAltRight } from "react-icons/fa";
+import { ImArrowRight } from "react-icons/im";
 import VideoContext, { SearchVideoContext } from './contexts/VideoContext';
 import { Footer } from './components/Footer';
 import { Navbar } from './components/Navbar';
@@ -135,15 +135,15 @@ function App() {
       <Navbar />
       <div className='border flex flex-col justify-center items-center border-green-500 p-4 rounded mt-2'>
         <div className='flex flex-col items-center'>
-          <h2 className='mb-8 text-3xl text-cyan-300 font-roboto lg:text-4xl'>Download video Youtube 4K</h2>
+          <h2 className='mb-8 text-3xl text-cyan-300 font-roboto lg:text-3xl font-semibold'>Download video Youtube 4K</h2>
           <div className=''>
             <form action="" className='flex flex-row'>
               <input type="text" value={inputValue} onChange={handleInputChange}
                 placeholder='Paste link here...' className='p-2.5 min-w-96   
             border-2 border-pink-600 rounded-l outline-none lg:w-[500px]'  />
 
-              <button type='submit' className='bg-pink-600 hover:bg-pink-500 flex items-center rounded-none rounded-e ps-3 pe-3'
-                onClick={handleStartButtonClick}> Start <FaLongArrowAltRight style={{ marginLeft: '2px' }} />
+              <button type='submit' className='font-semibold bg-pink-600 hover:bg-pink-500 flex items-center rounded-none rounded-e ps-3 pe-3'
+                onClick={handleStartButtonClick}> Start <ImArrowRight style={{ marginLeft: '2px' }} />
               </button>
 
             </form>

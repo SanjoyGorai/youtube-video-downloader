@@ -19,7 +19,7 @@ export const DownloadButton = () => {
     return (
         <div className=''>
             <button onClick={(e) => ''} type='button' id=''
-                className='text-white bg-lime-400 rounded p-2 ps-4 pe-4 font-normal flex items-center'>
+                className='text-white bg-green-600 rounded p-1.5 ps-3 pe-3 font-normal flex items-center hover:bg-green-700'>
                 <BiSolidDownload style={{ fontSize: '1rem', marginRight: '2px' }} />
                 Download
             </button>
