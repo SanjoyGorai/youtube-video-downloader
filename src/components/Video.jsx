@@ -36,8 +36,9 @@ const Video = () => {
           <div className='flex-col items-start mt-3'>
             {
               length > 5 ?
-                <><img src={videoData.thumbnail[1].url}
-                  alt="thumbnail" className='max-w-96 object-fill' />
+                <>
+                  <img src={videoData.thumbnail[1].url}
+                    alt="thumbnail" className='max-w-96 object-fill' />
                   <h5 className='font-bold max-w-80 text-start '> {videoData.title}  </h5>
                   <p className='mt-2 font-roboto text-start'>{`Duration: ${msToTimeFormat(videoData.adaptiveFormats[0].approxDurationMs)} `} </p>
                 </>

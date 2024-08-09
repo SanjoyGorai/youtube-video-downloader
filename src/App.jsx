@@ -31,6 +31,7 @@ function App() {
   const { searchVideoData, setSearchVideoData } = useContext(SearchVideoContext);
   const { showElement, setShowElement } = useContext(ImageLoadContext);
   const [videoFromUrl, setVideoFromUrl] = useState(false);
+  const [isShortFromUrl, setIsShortFromUrl] = useState(false);
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -43,9 +44,6 @@ function App() {
       return url.split('?v=')[1].split('&')[0];
     }
   }
-  function handleDownload(event) {
-    console.log(event.target.id);
-  }
 
   function isValidURL(url) {
     try {
@@ -56,7 +54,58 @@ function App() {
     }
   }
 
-  async function getVideos() {
+  const ur = 'https://youtube.com/shorts/-VOUImxh8ew?si=_k6AIzPXMZxVuXIa'
+  const urv = 'https://youtu.be/7m-FTPAedEg?si=nMkRaQ6cpSiYouPS'
+  function isYouTubeShorts(url) {
+    const regex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/shorts\/[a-zA-Z0-9_-]+(\?.*)?$/;
+    return regex.test(url);
+  }
+  // console.log(isYouTubeShorts(urv));
+
+  function extractYouTubeShortsID(url) {
+    const regex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/shorts\/([a-zA-Z0-9_-]+)/;
+    const match = url.match(regex);
+    if (match && match[4]) {
+      return match[4];
+    } else {
+      return null;
+    }
+  }
+  function isYouTubeVideo(url) {
+    const regex = /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[a-zA-Z0-9_-]+/;
+    return regex.test(url);
+  }
+  const url = 'https://youtube.com/shorts/ZrUPwrZBYHo?si=R16gagF4j5C8WIFE';
+  // console.log(`${url} is ${isYouTubeVideo(url) ? '' : 'not '}a valid YouTube video URL`);
+
+  async function getShorts(inputValue) {
+    const shortId = extractYouTubeShortsID(inputValue);
+    const options = {
+      method: 'GET',
+      url: 'https://yt-api.p.rapidapi.com/shorts/info',
+      params: { id: shortId },
+      headers: {
+        'x-rapidapi-key': '6e4f3542d1msh4d2f7d5fc314f58p1e1532jsn38558c63b3d7',
+        'x-rapidapi-host': 'yt-api.p.rapidapi.com'
+      }
+    };
+
+    try {
+      const response = await axios.request(options);
+      console.log("Axios Shorts Data: ", response)
+      setLoading(false);
+      setIsShortFromUrl(true)
+      setTimeout(() => {
+        setShowElement(true);
+      }, 2000);
+    } catch (error) {
+      console.log("Fetch Error: ", error);
+      setIsError(true);
+      setLoading(false);
+    }
+  }
+
+  async function getSearchedVideos() {
     const options = {
       method: 'GET',
       url: 'https://yt-api.p.rapidapi.com/search',
@@ -82,6 +131,33 @@ function App() {
       setLoading(false);
     }
   }
+  async function getVideo(inputValue) {
+    const videoId = extractVideoId(inputValue);
+    const options = {
+      method: 'GET',
+      url: 'https://yt-api.p.rapidapi.com/dl',
+      params: { id: videoId },
+      headers: {
+        'x-rapidapi-key': '6e4f3542d1msh4d2f7d5fc314f58p1e1532jsn38558c63b3d7',
+        'x-rapidapi-host': 'yt-api.p.rapidapi.com'
+      }
+    };
+
+    try {
+      const response = await axios.request(options);
+      setVideoData(response.data);
+      console.log("Axios Data from getVideo: ", response.data);
+      setVideoFromUrl(true);
+      setLoading(false);
+      setTimeout(() => {
+        setShowElement(true);
+      }, 2000);
+    } catch (error) {
+      console.log("Fetch Error getVidoe!: ", error);
+      setIsError(true);
+      setLoading(false);
+    }
+  }
 
   const handleStartButtonClick = (event) => {
     event.preventDefault();
@@ -101,33 +177,26 @@ function App() {
 
     if (inputValue == '') {
       console.log("Null value");
-    } else {
+    }
+    else {
       setIsError(false);
       setVideoFromUrl(false);
       setIsSubmitted(true);
       setLoading(true);
       if (isValidURL(inputValue)) {
-        axios.get(url, options)
-          .then(res => {
-            setVideoData(res.data);
-            console.log("Axios Data: ", res.data);
-            setVideoFromUrl(true);
-            setLoading(false);
-            setTimeout(() => {
-              setShowElement(true);
-            }, 2000);
-          })
-          .catch(e => {
-            setIsError(true);
-            console.log("Fetch Error: ", e.message);
-            setLoading(false);
-          });
-      } else {
-        getVideos()
+        if (isYouTubeShorts(inputValue)) {
+          console.log('from isYouTubeShorts blog');
+          getShorts(inputValue)
+        } else {
+          console.log('from getVideo blog');
+          getVideo(inputValue)
+        }
       }
-
+      else {
+        getSearchedVideos()
+        console.log('from getSearchedVideos blog');
+      }
     }
-
   };
 
   return (
@@ -155,16 +224,18 @@ function App() {
           {isSubmitted ? (loading ? <BeatLoader color='#00FF00' className='mt-5' /> :
             <div className='mt-2'>
               {
-                videoFromUrl ?
+                videoFromUrl || isShortFromUrl ?
                   (
-                    <div className=''>
-                      <div className='grid grid-cols-2 '>
-                        <Video />
-                        <BasicTable />
+                    videoFromUrl ? (
+                      <div className=''>
+                        <div className='grid grid-cols-2 '>
+                          <Video />
+                          <BasicTable />
+                        </div>
+                        <AdImage />
                       </div>
-                      <AdImage />
-                    </div>
-                  ) : <SearchVideos />
+                    ) : 'from shorts layout'
+                  ) : (isShortFromUrl ? '' : < SearchVideos />)
               }
             </div>
           )
