@@ -18,6 +18,7 @@ import { AdImage } from './components/AdImage';
 import { useStepperContext } from '@mui/material';
 import ImageLoadContext from './contexts/ImageLoadContext';
 import { SearchVideos } from './components/SearchVideos';
+import ShortsCard from './components/ShortsCard';
 
 
 function App() {
@@ -92,7 +93,9 @@ function App() {
 
     try {
       const response = await axios.request(options);
-      console.log("Axios Shorts Data: ", response)
+      // console.log("Axios Shorts Data: ", response)
+      console.log('Shorts data: ', response.data);
+
       setLoading(false);
       setIsShortFromUrl(true)
       setTimeout(() => {
@@ -234,7 +237,7 @@ function App() {
                         </div>
                         <AdImage />
                       </div>
-                    ) : 'from shorts layout'
+                    ) : <ShortsCard />
                   ) : (isShortFromUrl ? '' : < SearchVideos />)
               }
             </div>

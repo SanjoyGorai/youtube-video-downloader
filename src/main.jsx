@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import VideoProvider, { SearchVideoProvider } from './contexts/VideoProvider.jsx'
+import ShortsContextProvider  from './contexts/ShortsContextProvider.jsx'
 import {
     createBrowserRouter,
     RouterProvider,
@@ -12,8 +13,8 @@ import ImageLoadProvider from './contexts/ImageLoadProvider.jsx'
 
 const router = createBrowserRouter([
     {
-        path: "/", 
-        element: <App /> ,
+        path: "/",
+        element: <App />,
         errorElement: <ErrorPage />,
     },
     {
@@ -24,10 +25,12 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <VideoProvider>
-        <SearchVideoProvider>
-            <ImageLoadProvider>
-                <RouterProvider router={router} />
-            </ImageLoadProvider>
-        </SearchVideoProvider>
+        <ShortsContextProvider>
+            <SearchVideoProvider>
+                <ImageLoadProvider>
+                    <RouterProvider router={router} />
+                </ImageLoadProvider>
+            </SearchVideoProvider>
+        </ShortsContextProvider>
     </VideoProvider>
 )
