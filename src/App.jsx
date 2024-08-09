@@ -5,6 +5,7 @@ import { DownloadButton } from './components/DownloadButton';
 import { BasicTable } from './components/Table';
 import { ImArrowRight } from "react-icons/im";
 import VideoContext, { SearchVideoContext } from './contexts/VideoContext';
+
 import { Footer } from './components/Footer';
 import { Navbar } from './components/Navbar';
 import { Link } from 'react-router-dom';
@@ -19,6 +20,7 @@ import { useStepperContext } from '@mui/material';
 import ImageLoadContext from './contexts/ImageLoadContext';
 import { SearchVideos } from './components/SearchVideos';
 import ShortsCard from './components/ShortsCard';
+import ShortsContext from './contexts/ShortsContext';
 
 
 function App() {
@@ -33,6 +35,7 @@ function App() {
   const { showElement, setShowElement } = useContext(ImageLoadContext);
   const [videoFromUrl, setVideoFromUrl] = useState(false);
   const [isShortFromUrl, setIsShortFromUrl] = useState(false);
+  const { shortsData, setShortsData } = useContext(ShortsContext);
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -94,8 +97,8 @@ function App() {
     try {
       const response = await axios.request(options);
       // console.log("Axios Shorts Data: ", response)
-      console.log('Shorts data: ', response.data);
-
+      console.log('Shorts data getShorts: ', response.data);
+      setShortsData(response.data)
       setLoading(false);
       setIsShortFromUrl(true)
       setTimeout(() => {
@@ -188,16 +191,16 @@ function App() {
       setLoading(true);
       if (isValidURL(inputValue)) {
         if (isYouTubeShorts(inputValue)) {
-          console.log('from isYouTubeShorts blog');
+          // console.log('from isYouTubeShorts blog');
           getShorts(inputValue)
         } else {
-          console.log('from getVideo blog');
+          // console.log('from getVideo blog');
           getVideo(inputValue)
         }
       }
       else {
         getSearchedVideos()
-        console.log('from getSearchedVideos blog');
+        // console.log('from getSearchedVideos blog');
       }
     }
   };
