@@ -43,7 +43,7 @@ export const Navbar = () => {
                         <Link to={'./'}> <img src="./logo.png" alt="" className='h-16 p-2' /></Link>
                         <Link href=""> <h1 className='text-2xl font-bold hover:text-pink-600'>Y2Meta.app</h1></Link>
                     </ul>
-                    <Link><IoMdMenu id='mobile-menu-button' style={{ fontSize: '1.8rem' }} /></Link>
+                    <Link className='border-1 border-pink-600 rounded ps-2 pe-2 pt-1 pb-1 me-2 text-pink-600'><IoMdMenu id='mobile-menu-button' style={{ fontSize: '1.8rem' }} /></Link>
                 </div>
             </div>
             <div id='mobile-menu' className='sm:hidden md:hidden hidden flex-row justify-evenly lg:items-center'>

@@ -21,14 +21,15 @@ import ImageLoadContext from './contexts/ImageLoadContext';
 import { SearchVideos } from './components/SearchVideos';
 import ShortsCard from './components/ShortsCard';
 import ShortsContext from './contexts/ShortsContext';
+import InputForm from './components/InputForm';
+import FormSumbitContext from './contexts/FormSubmitContext';
 
 
 function App() {
 
   const [inputValue, setInputValue] = useState('');
-
   const [loading, setLoading] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  // const [isSubmitted, setIsSubmitted] = useState(false);
   const [isError, setIsError] = useState(null)
   const { videoData, setVideoData } = useContext(VideoContext);
   const { searchVideoData, setSearchVideoData } = useContext(SearchVideoContext);
@@ -36,6 +37,8 @@ function App() {
   const [videoFromUrl, setVideoFromUrl] = useState(false);
   const [isShortFromUrl, setIsShortFromUrl] = useState(false);
   const { shortsData, setShortsData } = useContext(ShortsContext);
+  const { isSubmitted, setIsSubmitted } = useContext(FormSumbitContext);
+
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -124,7 +127,7 @@ function App() {
 
     try {
       const response = await axios.request(options);
-      console.log("Axios Actual Data: ", response.data.data)
+      console.log("Axios Searched Data: ", response.data.data)
       const responseData = response.data;
       setSearchVideoData(responseData.data);
       setLoading(false);
@@ -187,20 +190,21 @@ function App() {
     else {
       setIsError(false);
       setVideoFromUrl(false);
+      setIsShortFromUrl(false);
       setIsSubmitted(true);
       setLoading(true);
       if (isValidURL(inputValue)) {
         if (isYouTubeShorts(inputValue)) {
-          // console.log('from isYouTubeShorts blog');
+          console.log('from isYouTubeShorts blog');
           getShorts(inputValue)
         } else {
-          // console.log('from getVideo blog');
+          console.log('from getVideo blog');
           getVideo(inputValue)
         }
       }
       else {
         getSearchedVideos()
-        // console.log('from getSearchedVideos blog');
+        console.log('from getSearchedVideos blog');
       }
     }
   };
@@ -210,23 +214,25 @@ function App() {
       <Navbar />
       <div className='border flex flex-col justify-center items-center border-green-500 p-4 rounded mt-2'>
         <div className='flex flex-col items-center'>
-          <h2 className='mb-8 text-3xl text-cyan-300 font-roboto lg:text-3xl font-semibold'>Download video Youtube 4K</h2>
+          <h2 className='mb-8 font-normal text-2xl font-roboto lg:text-3xl'>Download Video and Audio from Youtube </h2>
           <div className=''>
             <form action="" className='flex flex-row'>
               <input type="text" value={inputValue} onChange={handleInputChange}
-                placeholder='Paste link here...' className='p-2.5 min-w-96   
+                placeholder='Search or Paste link here...' className='p-2.5 lg:min-w-96   
             border-2 border-pink-600 rounded-l outline-none lg:w-[500px]'  />
 
-              <button type='submit' className='font-semibold bg-pink-600 hover:bg-pink-500 flex items-center rounded-none rounded-e ps-3 pe-3'
+              <button type='submit' className='text-white font-semibold bg-pink-600 w-20 hover:bg-pink-500 flex items-center rounded-none rounded-e ps-3 pe-3'
                 onClick={handleStartButtonClick}> Start <ImArrowRight style={{ marginLeft: '2px' }} />
               </button>
 
             </form>
           </div>
+          {/* <InputForm /> */}
 
         </div>
 
         <div className='mt-3 mb-2'>
+          {console.log(isSubmitted)}
           {isSubmitted ? (loading ? <BeatLoader color='#00FF00' className='mt-5' /> :
             <div className='mt-2'>
               {
@@ -234,14 +240,14 @@ function App() {
                   (
                     videoFromUrl ? (
                       <div className=''>
-                        <div className='grid grid-cols-2 '>
+                        <div className='grid lg:grid-cols-2'>
                           <Video />
                           <BasicTable />
                         </div>
                         <AdImage />
                       </div>
                     ) : <ShortsCard />
-                  ) : (isShortFromUrl ? '' : < SearchVideos />)
+                  ) : < SearchVideos />
               }
             </div>
           )
