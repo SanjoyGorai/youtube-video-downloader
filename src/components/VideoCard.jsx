@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import { SearchVideoContext } from '../contexts/VideoContext';
 import { Link } from 'react-router-dom';
+import { SearchVideoContext } from '../contexts/VideoContext';
 
 export const VideoCard = () => {
 

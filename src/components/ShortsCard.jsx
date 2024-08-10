@@ -11,7 +11,6 @@ const ShortsCard = () => {
     return (
         <>
             <div className="max-w-xs bg-white shadow-md rounded-lg overflow-hidden">
-                {/* Image */}
                 <img
                     src={shortsData.thumbnail[0].url}
                     alt={''}
