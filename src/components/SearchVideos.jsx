@@ -6,7 +6,7 @@ import { VideoCard } from './VideoCard';
 export const SearchVideos = () => {
 
     const { searchVideoData, setSearchVideoData } = useContext(SearchVideoContext);
-    // console.log("Search Videos :", searchVideoData);
+    console.log("Search Videos from SearchVideos componant :", searchVideoData);
     if (searchVideoData.thumbnail != undefined) {
         const thumbnail = searchVideoData[0]?.thumbnail[1]?.url
     }

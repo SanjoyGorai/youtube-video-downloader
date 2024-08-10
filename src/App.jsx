@@ -34,7 +34,7 @@ function App() {
   const { isLoading, setIsLoading } = useContext(LoadingContext);
   const { isError, setIsError } = useContext(ErrorContext);
   const { videoData, setVideoData } = useContext(VideoContext);
-  const { searchVideoData, setSearchVideoData } = useContext(SearchVideoContext);
+  // const { searchVideoData, setSearchVideoData } = useContext(SearchVideoContext);
   const { showElement, setShowElement } = useContext(ImageLoadContext);
   const { videoFromUrl, setVideoFromUrl } = useContext(FromUrlContext);
   const { isShortFromUrl, setIsShortFromUrl } = useContext(ShortsUrlContext);
@@ -51,33 +51,37 @@ function App() {
           <InputForm />
 
         </div>
+        {console.log('isError from app', isError)
+        }
+        {isError ? <BeatLoader color='#00FF00' className='mt-5' /> :
+          <div className='mt-3 mb-2'>
 
-        <div className='mt-3 mb-2'>
-          {isSubmitted ? (isLoading ? <BeatLoader color='#00FF00' className='mt-5' /> :
-            <div className='mt-2'>
-              {
-                videoFromUrl || isShortFromUrl ?
-                  (
-                    videoFromUrl ? (
-                      <div className=''>
-                        <div className='grid lg:grid-cols-2'>
-                          <Video />
-                          <BasicTable />
+            {isSubmitted ? (isLoading ? <BeatLoader color='#00FF00' className='mt-5' /> :
+              <div className='mt-2'>
+                {
+                  videoFromUrl || isShortFromUrl ?
+                    (
+                      videoFromUrl ? (
+                        <div className=''>
+                          <div className='grid lg:grid-cols-2'>
+                            <Video />
+                            <BasicTable />
+                          </div>
+                          <AdImage />
                         </div>
-                        <AdImage />
-                      </div>
-                    ) : <ShortsCard />
-                  ) : < SearchVideos />
-              }
-            </div>
-          )
-            : ''}
-        </div>
+                      ) : <ShortsCard />
+                    ) : < SearchVideos />
+                }
+              </div>
+            )
+              : ''}
+
+          </div>}
         <SubContent />
       </div>
       <Guide />
       <Footer />
-    </div>
+    </div >
   )
 }
 

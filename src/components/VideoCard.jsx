@@ -5,9 +5,8 @@ import { SearchVideoContext } from '../contexts/VideoContext';
 export const VideoCard = () => {
 
     const { searchVideoData, setSearchVideoData } = useContext(SearchVideoContext);
-    console.log('VideoCard: ', searchVideoData);
+    console.log('searchVideoData ', searchVideoData);
 
-    const imagePlaceholder = `https://react.semantic-ui.com/images/image-16by9.png`
 
     return (
         <>
