@@ -15,6 +15,7 @@ import LoadingContextProvider from './contexts/LoadingContextProvider.jsx'
 import VideoUrlContextProvider from './contexts/input/VideoUrlContextProvider.jsx'
 import ShortsUrlContextProvider from './contexts/input/ShortsUrlContextProvider.jsx'
 import ErrorContextProvider from './contexts/ErrorContextProvider.jsx'
+import InputValuecontextProvider from './contexts/input/InputValueContextProvider.jsx'
 
 const router = createBrowserRouter([
     {
@@ -23,31 +24,32 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
     },
     {
-        path: "contacts/",
+        path: "home/",
         element: 'contacts page has not created yet!!',
     },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <ErrorContextProvider>
-        <FormSubmitContextProvider>
-            <VideoProvider>
-                <ShortsContextProvider>
-                    <SearchVideoProvider>
-                        <ImageLoadProvider>
-                            <LoadingContextProvider>
-                                <VideoUrlContextProvider>
-                                    <ShortsUrlContextProvider>
-                                        <RouterProvider router={router} />
-                                    </ShortsUrlContextProvider>
-                                </VideoUrlContextProvider>
-                            </LoadingContextProvider>
-                        </ImageLoadProvider>
-                    </SearchVideoProvider>
-                </ShortsContextProvider>
-            </VideoProvider>
-        </FormSubmitContextProvider>
-    </ErrorContextProvider>
-
+    <InputValuecontextProvider>
+        <ErrorContextProvider>
+            <FormSubmitContextProvider>
+                <VideoProvider>
+                    <ShortsContextProvider>
+                        <SearchVideoProvider>
+                            <ImageLoadProvider>
+                                <LoadingContextProvider>
+                                    <VideoUrlContextProvider>
+                                        <ShortsUrlContextProvider>
+                                            <RouterProvider router={router} />
+                                        </ShortsUrlContextProvider>
+                                    </VideoUrlContextProvider>
+                                </LoadingContextProvider>
+                            </ImageLoadProvider>
+                        </SearchVideoProvider>
+                    </ShortsContextProvider>
+                </VideoProvider>
+            </FormSubmitContextProvider>
+        </ErrorContextProvider>
+    </InputValuecontextProvider>
 
 )

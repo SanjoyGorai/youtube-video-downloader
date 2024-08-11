@@ -24,64 +24,78 @@ import InputForm from './components/InputForm';
 import FormSumbitContext from './contexts/FormSubmitContext';
 import LoadingContext from './contexts/LoadingContext';
 import FromUrlContext from './contexts/input/VideoUrlContext';
-import ShortsUrlContext from './contexts/input/ShortsUrlContext copy';
+import ShortsUrlContext from './contexts/input/ShortsUrlContext';
 import ErrorContext from './contexts/ErrorContext';
+import YouTube from './components/ImageLoadingSkeleton';
+import InputValueContext from './contexts/input/InputValueContext';
+import fetchYTSubtitle from './util/fetchYTSubtitle';
 
 
 function App() {
 
-  const [inputValue, setInputValue] = useState('');
+
+  const { inputValue, setInputValue } = useContext(InputValueContext);
   const { isLoading, setIsLoading } = useContext(LoadingContext);
   const { isError, setIsError } = useContext(ErrorContext);
   const { videoData, setVideoData } = useContext(VideoContext);
-  // const { searchVideoData, setSearchVideoData } = useContext(SearchVideoContext);
+  const { searchVideoData, setSearchVideoData } = useContext(SearchVideoContext);
   const { showElement, setShowElement } = useContext(ImageLoadContext);
   const { videoFromUrl, setVideoFromUrl } = useContext(FromUrlContext);
   const { isShortFromUrl, setIsShortFromUrl } = useContext(ShortsUrlContext);
   const { shortsData, setShortsData } = useContext(ShortsContext);
   const { isSubmitted, setIsSubmitted } = useContext(FormSumbitContext);
 
+  if (inputValue !== '') {
+    fetchYTSubtitle(inputValue)
+  }
 
   return (
-    <div className='flex flex-col m-auto max-w-[900px] text-center p-0'>
-      <Navbar />
-      <div className='border flex flex-col justify-center items-center border-green-500 p-4 rounded mt-2'>
-        <div className='flex flex-col items-center'>
+    <>
+      <div className='flex flex-col m-auto max-w-[900px] text-center p-0'>
+        <Navbar />
+        <div className='border flex flex-col justify-center items-center border-green-500 p-4 rounded mt-2'>
+          <div className='flex flex-col items-center'>
 
-          <InputForm />
+            <InputForm />
 
-        </div>
-        {console.log('isError from app', isError)
-        }
-        {isError ? <BeatLoader color='#00FF00' className='mt-5' /> :
-          <div className='mt-3 mb-2'>
+          </div>
+          {console.log('isError from app', isError)
+          }
+          {isError ? <BeatLoader color='#00FF00' className='mt-5' /> :
+            <div className='mt-3 mb-2'>
 
-            {isSubmitted ? (isLoading ? <BeatLoader color='#00FF00' className='mt-5' /> :
-              <div className='mt-2'>
-                {
-                  videoFromUrl || isShortFromUrl ?
-                    (
-                      videoFromUrl ? (
-                        <div className=''>
-                          <div className='grid lg:grid-cols-2'>
-                            <Video />
-                            <BasicTable />
+              {isSubmitted ? (isLoading ? <BeatLoader color='#00FF00' className='mt-5' /> :
+                <div className='mt-2'>
+                  {
+                    videoFromUrl || isShortFromUrl ?
+                      (
+                        videoFromUrl ? (
+                          <div className=''>
+                            <div className='grid lg:grid-cols-2 '>
+                              <Video />
+                              <BasicTable />
+                            </div>
+                            <AdImage />
                           </div>
-                          <AdImage />
-                        </div>
-                      ) : <ShortsCard />
-                    ) : < SearchVideos />
-                }
-              </div>
-            )
-              : ''}
+                        ) : <ShortsCard />
+                      ) : < SearchVideos />
+                  }
+                </div>
+              )
+                : ''}
 
-          </div>}
-        <SubContent />
+            </div>}
+          <SubContent />
+        </div>
+        <Guide />
+        {/* <Footer /> */}
+      </div >
+
+      <div className=''>
+        <Footer />
       </div>
-      <Guide />
-      <Footer />
-    </div >
+    </>
+
   )
 }
 

@@ -38,6 +38,8 @@ export const BasicTable = () => {
     const uniqueItems = Array.from(new Map(videoItems?.
         map(item => [item.height, item])).values());
     const mappedItems = uniqueItems.map(item => ({ ...item }));
+    const mp4Formats = mappedItems.filter(format => format.mimeType.includes('video/mp4'));
+
 
     function bytesToSize(bytes) {
         const kb = 1024;
@@ -73,14 +75,15 @@ export const BasicTable = () => {
                         </TableHead>
                         <TableBody >
                             {
-                                mappedItems
+                                // mappedItems
+                                mp4Formats
                                     .filter(item => item.qualityLabel != undefined)
                                     .sort((a, b) => a.height - b.height)
                                     .map((item, key) => (
                                         <TableRow
                                             key={key}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                            <TableCell component="th" scope="row">{`${item?.qualityLabel} (.${item?.mimeType.substring(6, 9)})`}</TableCell>
+                                            <TableCell component="th" scope="row">{`${item?.qualityLabel} (.${item?.mimeType.substring(6, 9)})`} </TableCell>
                                             <TableCell className='text-start border-s border-e' align="right">{bytesToSize(item?.contentLength)}</TableCell>
                                             <TableCell align="right" ><DownloadButton className='bg-fuchsia-500' /></TableCell>
                                         </TableRow>

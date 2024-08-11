@@ -15,10 +15,12 @@ export const SearchVideos = () => {
 
     return (
         <div>
-            <div className='grid grid-cols-2 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4 
+
+            <div className='items-center grid grid-cols-2 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4 
             space-x-5 space-y-3'>
                 <VideoCard />
             </div>
-        </div>
+
+        </div >
     )
 }

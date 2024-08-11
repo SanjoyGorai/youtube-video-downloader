@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import VideoUrlContext from './VideoUrlContext';
-import ShortsUrlContext from './ShortsUrlContext copy';
+import ShortsUrlContext from './ShortsUrlContext';
 
 const ShortsUrlContextProvider = ({ children }) => {
 

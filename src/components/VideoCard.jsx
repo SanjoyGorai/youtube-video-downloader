@@ -1,22 +1,24 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
 import { SearchVideoContext } from '../contexts/VideoContext';
+import LoadingContext from '../contexts/LoadingContext';
+import YouTube from './ImageLoadingSkeleton';
 
 export const VideoCard = () => {
 
     const { searchVideoData, setSearchVideoData } = useContext(SearchVideoContext);
     console.log('searchVideoData ', searchVideoData);
-
+    const { isLoading, setIsLoading } = useContext(LoadingContext);
 
     return (
         <>
             {
                 searchVideoData?.filter(item => item.type === 'video')
                     ?.map((item, index) => (
-                        <div key={index} className="flex  max-w-sm bg-gray-800 rounded-lg shadow-lg overflow-hidden ">
+                        <div key={index} className=" max-w-sm  ">
                             <div className="relative">
-                                <div className="flex flex-col items-center max-w-sm bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                                    <Link to={'/'}>
+                                <div className="items-center max-w-sm bg-gray-800 ">
+                                    <Link to={''}>
                                         <div className="relative">
                                             <img
                                                 className="w-full object-cover"
@@ -28,7 +30,7 @@ export const VideoCard = () => {
                                             </span>
                                         </div>
                                         <div className="p-1">
-                                            <h3 className="text-start font-normal text-slate-100 hover:text-pink-600 ">{item.title}</h3>
+                                            <h3 className="text-start font-normal text-sm text-slate-100 hover:text-pink-600 ">{item.title.substring(0, 48)}</h3>
                                         </div>
                                     </Link>
                                 </div>

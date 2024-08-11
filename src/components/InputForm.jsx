@@ -7,12 +7,13 @@ import axios from "axios";
 import FormSumbitContext from "../contexts/FormSubmitContext";
 import LoadingContext from "../contexts/LoadingContext";
 import VideoUrlContext from "../contexts/input/VideoUrlContext";
-import ShortsUrlContext from "../contexts/input/ShortsUrlContext copy";
+import ShortsUrlContext from "../contexts/input/ShortsUrlContext";
 import ErrorContext from "../contexts/ErrorContext";
+import InputValueContext from "../contexts/input/InputValueContext";
 
 function InputForm() {
 
-    const [inputValue, setInputValue] = useState('');
+    const {inputValue, setInputValue} = useContext(InputValueContext);
     const { isLoading, setIsLoading } = useContext(LoadingContext);
     const { isError, setIsError } = useContext(ErrorContext);
     const { videoData, setVideoData } = useContext(VideoContext);
@@ -22,6 +23,36 @@ function InputForm() {
     const { isShortFromUrl, setIsShortFromUrl } = useContext(ShortsUrlContext);
     const { shortsData, setShortsData } = useContext(ShortsContext);
     const { isSubmitted, setIsSubmitted } = useContext(FormSumbitContext);
+
+
+    function extractVideoId(url) {
+        if (url.includes('youtu.be')) {
+            return url.split('/').pop().split('?')[0];
+        } else if (url.includes('youtube.com/watch')) {
+            return url.split('?v=')[1].split('&')[0];
+        }
+    }
+    async function YTStream() {
+        const videoId = extractVideoId(inputValue);
+        const options = {
+            method: 'GET',
+            url: 'https://ytstream-download-youtube-videos.p.rapidapi.com/dl',
+            params: { id: videoId },
+            headers: {
+                'x-rapidapi-key': '6e4f3542d1msh4d2f7d5fc314f58p1e1532jsn38558c63b3d7',
+                'x-rapidapi-host': 'ytstream-download-youtube-videos.p.rapidapi.com'
+            }
+        };
+
+        try {
+            const response = await axios.request(options);
+            console.log('YTStream', response.data);
+            // setIsLoading(false)
+        } catch (error) {
+            console.error(error);
+        }
+    }
+  
 
     async function getShorts() {
         const shortId = extractYouTubeShortsID(inputValue);
@@ -122,6 +153,7 @@ function InputForm() {
                 } else {
                     console.log('from getVideo block');
                     getVideo(inputValue)
+                    // YTStream()
                 }
             }
             else {
@@ -131,13 +163,7 @@ function InputForm() {
         }
     };
 
-    function extractVideoId(url) {
-        if (url.includes('youtu.be')) {
-            return url.split('/').pop().split('?')[0];
-        } else if (url.includes('youtube.com/watch')) {
-            return url.split('?v=')[1].split('&')[0];
-        }
-    }
+
 
     function isValidURL(url) {
         try {
@@ -175,7 +201,7 @@ function InputForm() {
                     <form action="" className='flex flex-row'>
                         <input type="text" value={inputValue} onChange={e => setInputValue(e.target.value)}
                             placeholder='Search or Paste link here...' className='p-2.5 lg:min-w-96   
-            border-2 border-pink-600 rounded-l outline-none lg:w-[500px]'  />
+            border-2 border-pink-600 rounded-l outline-none lg:w-[500px] '  />
 
                         <button type='submit' className='text-white font-semibold bg-pink-600 w-20 hover:bg-pink-500 flex items-center rounded-none rounded-e ps-3 pe-3'
                             onClick={handleStartButtonClick}> Start <ImArrowRight style={{ marginLeft: '2px' }} />

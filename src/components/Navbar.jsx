@@ -17,8 +17,8 @@ export const Navbar = () => {
             <div>
                 <div className='hidden justify-between items-center md:flex lg:flex'>
                     <ul className='flex items-center'>
-                        <Link to={'./'}> <img src="./logo.png" alt="" className='h-16 p-2' /></Link>
-                        <Link href=""> <h1 className='text-2xl font-bold hover:text-pink-600'>Y2Meta.app</h1></Link>
+                        <Link to={'/'}> <img src="./logo.png" alt="" className='h-16 p-2' /></Link>
+                        <Link to={'/'} > <h1 className='text-2xl font-bold hover:text-pink-600'>Y2Meta.app</h1></Link>
                     </ul>
                     <div className='hidden md:flex flex-row justify-evenly lg:items-center'>
                         <Link href="" className='  font-normal hover:text-pink-500 '>Youtube HD 4K</Link>
